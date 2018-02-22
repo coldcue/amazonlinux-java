@@ -1,12 +1,12 @@
 FROM amazonlinux:2 AS builder
 WORKDIR /root
 RUN yum install tar -y
-COPY server-jre-8u162-linux-x64.tar.gz .
-RUN echo "6942684acb6001748a01fc090a18f52ebd8cbfcf7be27ec6131981906bfa8b53 *server-jre-8u162-linux-x64.tar.gz" > server-jre-8u162-linux-x64.tar.gz-CHECKSUM
-RUN sha256sum -c server-jre-8u162-linux-x64.tar.gz-CHECKSUM
-RUN tar xvzf server-jre-8u162-linux-x64.tar.gz
+COPY serverjre-9.0.4_linux-x64_bin.tar.gz .
+RUN echo "d29b6b3008c814abd8ab5e4bde9278d6ee7699898333992ee8d080612b5197ca *serverjre-9.0.4_linux-x64_bin.tar.gz" > serverjre-9.0.4_linux-x64_bin.tar.gz-CHECKSUM
+RUN sha256sum -c serverjre-9.0.4_linux-x64_bin.tar.gz-CHECKSUM
+RUN tar xvzf serverjre-9.0.4_linux-x64_bin.tar.gz
 
 FROM amazonlinux:2
 
-COPY --from=builder /root/jdk1.8.0_162/jre /usr/jre
-ENV PATH="/usr/jre/bin:${PATH}"
+COPY --from=builder /root/jdk-9.0.4/ /usr/java
+ENV PATH="/usr/java/bin:${PATH}"
